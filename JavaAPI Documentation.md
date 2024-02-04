@@ -1,6 +1,6 @@
 # SUPERHERO API DOCUMENTATION
 
-This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
+This is an API REST aimed to maintain a superhero Data Base with CRUD methods. There is a Postman collection, in this same repo, that gathers all endpoints and can be easily imported to test the API.
 
 
 ## ENDPOINTS
@@ -121,6 +121,14 @@ This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
         "wearsCape": true
     }
     ```
+    ### RESPONSE SAMPLE
+    ```
+    Superman ha sido actualizado correctamente.
+    ```
+    or
+    ```
+    No hemos encontrado a Superman en nuestra base de datos.
+    ```
 
 * ## `/delete/{name}`
     ### `DELETE`
@@ -139,4 +147,9 @@ This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
 * ## `/deleteAll`
     ### `DELETE`
     This endpoint recieves no params. All superheroes on the Data Base will be deleted.
+
+    ### RESPONSE SAMPLE
+    ```
+    Todos los superheroes fueron eliminados de la base de datos.
+    ```
 
