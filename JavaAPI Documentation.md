@@ -88,7 +88,7 @@ This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
 
 * ## `/create`
     ### `POST`
-    This endpoint will create -if possible- a new superhero in the Data Base.
+    This endpoint will create -if possible- a new superhero in the Data Base. The API will first check if Aquaman already existed in the Data Base, therefore the response will depend on it.
 
     ### REQUEST BODY SAMPLE
     ```
@@ -100,7 +100,6 @@ This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
     }
     ```
 
-    The API will first check if Aquaman already existed on the Data Base, therefore the response will depend on it.
     ### RESPONSE SAMPLE
     ```
     Aquaman ha sido dado de alta correctamente.
