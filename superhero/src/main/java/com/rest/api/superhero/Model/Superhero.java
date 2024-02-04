@@ -2,10 +2,8 @@ package com.rest.api.superhero.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-
-import java.util.List;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(schema = "SUPERHEROES")
@@ -24,7 +22,7 @@ public class Superhero {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -40,7 +38,6 @@ public class Superhero {
         return power;
     }
 
-
     public void setPower(String power) {
         this.power = power;
     }
@@ -51,5 +48,15 @@ public class Superhero {
 
     public void setWearsCape(boolean wearsCape) {
         this.wearsCape = wearsCape;
+    }
+
+    public Superhero() {
+    }
+
+    public Superhero(String name, String city, String power, boolean wearsCape) {
+        this.setName(name);
+        this.setCity(city);
+        this.setPower(power);
+        this.setWearsCape(wearsCape);
     }
 }

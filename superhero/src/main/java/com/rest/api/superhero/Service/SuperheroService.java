@@ -3,9 +3,9 @@ package com.rest.api.superhero.Service;
 import com.rest.api.superhero.Model.Superhero;
 import com.rest.api.superhero.Repository.SuperheroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,44 +16,29 @@ public class SuperheroService {
     @Autowired
     private SuperheroRepository superheroRepository;
 
+    SuperheroService(SuperheroRepository superheroRepository) {
+        this.superheroRepository = superheroRepository;
+    }
+
     public String init(){
-        Superhero superhero = new Superhero();
 
-        superhero.setName("Batman");
-        superhero.setPower("Ninguno");
-        superhero.setCity("Ciudad Gotica");
-        superhero.setWearsCape(true);
-        superheroRepository.save(superhero);
+        Superhero batman = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
+        superheroRepository.save(batman);
 
-        superhero.setName("Superman");
-        superhero.setPower("Volar");
-        superhero.setCity("Metropolis");
-        superhero.setWearsCape(true);
-        superheroRepository.save(superhero);
+        Superhero superman = new Superhero("Superman", "Metropolis", "Volar", true);
+        superheroRepository.save(superman);
 
-        superhero.setName("Spiderman");
-        superhero.setPower("Telarañas");
-        superhero.setCity("Nueva York");
-        superhero.setWearsCape(false);
-        superheroRepository.save(superhero);
+        Superhero spiderman = new Superhero("Spiderman", "Nueva York", "Telarañas", false);
+        superheroRepository.save(spiderman);
 
-        superhero.setName("Flecha Verde");
-        superhero.setPower("Ninguno");
-        superhero.setCity("Starling");
-        superhero.setWearsCape(false);
-        superheroRepository.save(superhero);
+        Superhero flechaVerde = new Superhero("Flecha Verde", "Starling", "Ninguno", false);
+        superheroRepository.save(flechaVerde);
 
-        superhero.setName("Thor");
-        superhero.setPower("Trueno");
-        superhero.setCity("Asgard");
-        superhero.setWearsCape(true);
-        superheroRepository.save(superhero);
+        Superhero thor = new Superhero("Thor", "Asgard", "Trueno", true);
+        superheroRepository.save(thor);
 
-        superhero.setName("Ironman");
-        superhero.setPower("Ninguno");
-        superhero.setCity("Nueva York");
-        superhero.setWearsCape(true);
-        superheroRepository.save(superhero);
+        Superhero ironman = new Superhero("Ironman", "Nueva York", "Ninguno", false);
+        superheroRepository.save(ironman);
 
 
         return "La base de datos ha sido inicializada correctamente.";
@@ -117,5 +102,7 @@ public class SuperheroService {
 
     public List<Superhero> findByNameContaining(String partialName) {
         return superheroRepository.findByNameContaining(partialName);
-    };
+    }
+
+    ;
 }
