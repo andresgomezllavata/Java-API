@@ -44,16 +44,16 @@ public class SuperheroService {
         return "La base de datos ha sido inicializada correctamente.";
     };
 
-
     public List<Superhero> findAll(){
         return superheroRepository.findAll();
     };
 
-
     public Optional<Superhero> findSuperhero(@PathVariable String name){
         return superheroRepository.findById(name);
     };
-
+    public List<Superhero> findByNameContaining(String partialName) {
+        return superheroRepository.findByNameContaining(partialName);
+    };
 
     public String createSuperhero(@RequestBody Superhero superhero) {
         Optional<Superhero> opt = superheroRepository.findById(superhero.getName());
@@ -66,7 +66,7 @@ public class SuperheroService {
         }
     };
 
-    public String  updateSuperhero(@RequestBody Superhero superhero) {
+    public String updateSuperhero(@RequestBody Superhero superhero) {
         Superhero updatedSuperhero = null;
         Optional<Superhero> opt = superheroRepository.findById(superhero.getName());
 
@@ -83,7 +83,6 @@ public class SuperheroService {
         }
     };
 
-
     public String deleteSuperhero(@PathVariable String name) {
         Optional<Superhero> opt = superheroRepository.findById(name);
 
@@ -99,10 +98,4 @@ public class SuperheroService {
         superheroRepository.deleteAll();
         return "Todos los superheroes fueron eliminados de la base de datos.";
     };
-
-    public List<Superhero> findByNameContaining(String partialName) {
-        return superheroRepository.findByNameContaining(partialName);
-    }
-
-    ;
 }

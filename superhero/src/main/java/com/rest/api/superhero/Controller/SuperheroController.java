@@ -25,7 +25,7 @@ public class SuperheroController {
     };
 
     @GetMapping(value = "/findByName/{name}")
-    public Optional<Superhero> findSuperhero(@PathVariable String name){
+    public Optional<Superhero> findByName(@PathVariable String name){
         return superheroService.findSuperhero(name);
     };
 

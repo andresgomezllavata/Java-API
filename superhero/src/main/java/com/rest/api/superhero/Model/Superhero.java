@@ -18,6 +18,13 @@ public class Superhero {
     @Column
     private boolean wearsCape;
 
+    public Superhero(String name, String city, String power, boolean wearsCape) {
+        this.setName(name);
+        this.setCity(city);
+        this.setPower(power);
+        this.setWearsCape(wearsCape);
+    }
+
     public String getName() {
         return name;
     }
@@ -51,12 +58,5 @@ public class Superhero {
     }
 
     public Superhero() {
-    }
-
-    public Superhero(String name, String city, String power, boolean wearsCape) {
-        this.setName(name);
-        this.setCity(city);
-        this.setPower(power);
-        this.setWearsCape(wearsCape);
     }
 }
