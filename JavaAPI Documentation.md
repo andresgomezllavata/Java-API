@@ -44,7 +44,7 @@ This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
 * ## `/findByName/{name}`
     ### `GET`
     This method will retrieve -if exists- the superhero with name recieved in the `name` param.
-    
+
     ### RESPONSE SAMPLE
     ```
     {
@@ -55,9 +55,10 @@ This is an API REST aimed to maintain a superhero Data Base with CRUD methods.
     ```
 
 
+
 * ## `/findByNameContaining/{partialName}`
     ### `GET`
-    This endpoint will retrieve a list of all superheroes existing in the database with their names containing the `partialName` param. For example, this endpoint called with `partialName="man"` will retrieve superheroes like Batman, Superman, Spiderman, etc.
+    This endpoint will retrieve a list of all superheroes existing in the database with their names containing the `partialName` param. For example, this endpoint called with `/findByNameContaining/man` will retrieve superheroes like Batman, Superman, Spiderman, etc.
 
     ### RESPONSE SAMPLE
     ```
