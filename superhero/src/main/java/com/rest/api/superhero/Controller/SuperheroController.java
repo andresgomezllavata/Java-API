@@ -14,10 +14,6 @@ public class SuperheroController {
     @Autowired
     private SuperheroService superheroService;
 
-    //SuperheroController(SuperheroService superheroService){
-    //    this.superheroService = superheroService;
-    //}
-
     @GetMapping(value = "/init")
     public String init(){
         return superheroService.init();
@@ -53,7 +49,7 @@ public class SuperheroController {
         return superheroService.deleteSuperhero(name);
     };
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping(value = "/deleteAll")
     public String deleteAll() {
         return superheroService.deleteAll();
     };
