@@ -1,7 +1,7 @@
-package com.rest.api.superhero.Service;
+package com.rest.api.superhero.service;
 
-import com.rest.api.superhero.Model.Superhero;
-import com.rest.api.superhero.Repository.SuperheroRepository;
+import com.rest.api.superhero.model.Superhero;
+import com.rest.api.superhero.repository.SuperheroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.rest.api.superhero.Model;
+package com.rest.api.superhero.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ public class Superhero {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

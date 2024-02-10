@@ -1,7 +1,7 @@
-package com.rest.api.superhero.Service;
+package com.rest.api.superhero.service;
 
-import com.rest.api.superhero.Model.Superhero;
-import com.rest.api.superhero.Repository.SuperheroRepository;
+import com.rest.api.superhero.model.Superhero;
+import com.rest.api.superhero.repository.SuperheroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +20,7 @@ public class SuperheroService {
         this.superheroRepository = superheroRepository;
     }
 
-    public String init(){
-
+    public void init(){
         Superhero batman = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
         superheroRepository.save(batman);
 
@@ -39,34 +38,24 @@ public class SuperheroService {
 
         Superhero ironman = new Superhero("Ironman", "Nueva York", "Ninguno", false);
         superheroRepository.save(ironman);
-
-
-        return "La base de datos ha sido inicializada correctamente.";
     };
 
     public List<Superhero> findAll(){
         return superheroRepository.findAll();
     };
 
-    public Optional<Superhero> findSuperhero(@PathVariable String name){
+    public Optional<Superhero> findSuperhero(String name){
         return superheroRepository.findById(name);
     };
     public List<Superhero> findByNameContaining(String partialName) {
         return superheroRepository.findByNameContaining(partialName);
     };
 
-    public String createSuperhero(@RequestBody Superhero superhero) {
-        Optional<Superhero> opt = superheroRepository.findById(superhero.getName());
-
-        if (!opt.isPresent()) {
-            superheroRepository.save(superhero);
-            return superhero.getName() + " ha sido dado de alta correctamente.";
-        } else {
-            return superhero.getName() + " ya se encontraba dado de alta en nuestra base de datos.";
-        }
+    public Superhero createSuperhero(Superhero superhero) {
+        return superheroRepository.save(superhero);
     };
 
-    public String updateSuperhero(@RequestBody Superhero superhero) {
+    public void updateSuperhero(Superhero superhero) {
         Superhero updatedSuperhero = null;
         Optional<Superhero> opt = superheroRepository.findById(superhero.getName());
 
@@ -77,25 +66,20 @@ public class SuperheroService {
             updatedSuperhero.setWearsCape(superhero.wearsCape());
 
             superheroRepository.save(updatedSuperhero);
-            return superhero.getName() + " ha sido actualizado correctamente.";
-        } else {
-            return "No hemos encontrado a " + superhero.getName() + " en nuestra base de datos.";
         }
     };
 
-    public String deleteSuperhero(@PathVariable String name) {
-        Optional<Superhero> opt = superheroRepository.findById(name);
-
-        if (opt.isPresent()) {
-            superheroRepository.delete(opt.get());
-            return name + " ha sido eliminado correctamente de nuestra base de datos.";
-        } else {
-            return name + " no se encuentra dado de alta en nuestra base de datos.";
-        }
+    public void deleteSuperhero(String name) {
+        Optional<Superhero> superhero = superheroRepository.findById(name);
+        superhero.ifPresent(value -> superheroRepository.delete(value));
     };
 
-    public String deleteAll() {
+    public void deleteAll() {
         superheroRepository.deleteAll();
-        return "Todos los superheroes fueron eliminados de la base de datos.";
     };
+
+    public boolean superheroExists(String name) {
+        return superheroRepository.existsById(name);
+    };
+
 }
