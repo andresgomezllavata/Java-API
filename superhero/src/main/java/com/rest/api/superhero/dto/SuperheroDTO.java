@@ -1,32 +1,20 @@
-package com.rest.api.superhero.model;
+package com.rest.api.superhero.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+public class SuperheroDTO {
 
-@Entity
-@Table(schema = "SUPERHEROES")
-public class Superhero {
-
-    @Id
     private String name;
-    @Column
     private String city;
-    @Column
     private String power;
-    @Column
     private boolean wearsCape;
 
-    public Superhero(String name, String city, String power, boolean wearsCape) {
+    public SuperheroDTO(String name, String city, String power, boolean wearsCape) {
         this.setName(name);
         this.setCity(city);
         this.setPower(power);
         this.setWearsCape(wearsCape);
     }
 
-    public Superhero() {
-    }
+    public SuperheroDTO() { }
 
     public String getName() {
         return name;
@@ -59,5 +47,4 @@ public class Superhero {
     public void setWearsCape(boolean wearsCape) {
         this.wearsCape = wearsCape;
     }
-
 }

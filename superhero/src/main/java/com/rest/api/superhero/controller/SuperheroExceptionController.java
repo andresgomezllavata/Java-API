@@ -1,9 +1,7 @@
 package com.rest.api.superhero.controller;
 
-
 import com.rest.api.superhero.error.SuperheroAlreadyExistedException;
 import com.rest.api.superhero.error.SuperheroNotFoundException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,26 +1,26 @@
 package com.rest.api.superhero.service;
 
+import com.rest.api.superhero.dto.SuperheroDTO;
+import com.rest.api.superhero.mapper.SuperheroMapper;
 import com.rest.api.superhero.model.Superhero;
 import com.rest.api.superhero.repository.SuperheroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SuperheroService {
 
-    @Autowired
     private SuperheroRepository superheroRepository;
 
-    SuperheroService(SuperheroRepository superheroRepository) {
+    private SuperheroMapper superheroMapper;
+
+    SuperheroService(SuperheroRepository superheroRepository, SuperheroMapper superheroMapper) {
         this.superheroRepository = superheroRepository;
+        this.superheroMapper = superheroMapper;
     }
 
-    public void init(){
+    public void init() {
         Superhero batman = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
         superheroRepository.save(batman);
 
@@ -38,48 +38,55 @@ public class SuperheroService {
 
         Superhero ironman = new Superhero("Ironman", "Nueva York", "Ninguno", false);
         superheroRepository.save(ironman);
-    };
+    }
 
-    public List<Superhero> findAll(){
-        return superheroRepository.findAll();
-    };
 
-    public Optional<Superhero> findSuperhero(String name){
-        return superheroRepository.findById(name);
-    };
-    public List<Superhero> findByNameContaining(String partialName) {
-        return superheroRepository.findByNameContaining(partialName);
-    };
+    public List<SuperheroDTO> findAll() {
+        return superheroMapper.toDTOList(superheroRepository.findAll());
+    }
 
-    public Superhero createSuperhero(Superhero superhero) {
-        return superheroRepository.save(superhero);
-    };
+    public Optional<SuperheroDTO> findSuperhero(String name) {
+        SuperheroDTO ret = null;
 
-    public void updateSuperhero(Superhero superhero) {
+        if (superheroRepository.findById(name).isPresent())
+            ret = superheroMapper.toDTO(superheroRepository.findById(name).get());
+
+        return Optional.ofNullable(ret);
+    }
+
+    public List<SuperheroDTO> findByNameContaining(String partialName) {
+        return superheroMapper.toDTOList(superheroRepository.findByNameContaining(partialName));
+    }
+
+    public void createSuperhero(SuperheroDTO superhero) {
+        superheroRepository.save(superheroMapper.toEntity(superhero));
+    }
+
+    public void updateSuperhero(SuperheroDTO superheroDTO) {
         Superhero updatedSuperhero = null;
-        Optional<Superhero> opt = superheroRepository.findById(superhero.getName());
+        Optional<Superhero> opt = superheroRepository.findById(superheroDTO.getName());
 
         if (opt.isPresent()) {
             updatedSuperhero = opt.get();
-            updatedSuperhero.setPower(superhero.getPower());
-            updatedSuperhero.setCity(superhero.getCity());
-            updatedSuperhero.setWearsCape(superhero.wearsCape());
+            updatedSuperhero.setPower(superheroDTO.getPower());
+            updatedSuperhero.setCity(superheroDTO.getCity());
+            updatedSuperhero.setWearsCape(superheroDTO.wearsCape());
 
             superheroRepository.save(updatedSuperhero);
         }
-    };
+    }
 
     public void deleteSuperhero(String name) {
         Optional<Superhero> superhero = superheroRepository.findById(name);
         superhero.ifPresent(value -> superheroRepository.delete(value));
-    };
+    }
 
     public void deleteAll() {
         superheroRepository.deleteAll();
-    };
+    }
 
     public boolean superheroExists(String name) {
         return superheroRepository.existsById(name);
-    };
+    }
 
 }

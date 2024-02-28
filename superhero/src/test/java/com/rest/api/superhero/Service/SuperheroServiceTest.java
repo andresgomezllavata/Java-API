@@ -1,121 +1,121 @@
 package com.rest.api.superhero.service;
 
-import com.rest.api.superhero.model.Superhero;
+import com.rest.api.superhero.dto.SuperheroDTO;
+import com.rest.api.superhero.mapper.SuperheroMapper;
 import com.rest.api.superhero.repository.SuperheroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SuperheroServiceTest {
-    @Autowired
-    private SuperheroRepository repository;
 
-    private SuperheroService service = null;
+    @Autowired
+    private SuperheroRepository superheroRepository;
+    @Autowired
+    private SuperheroMapper superheroMapper;
+    private SuperheroService superheroService = null;
 
     @BeforeEach
     void setUp() {
-        service = new SuperheroService(repository);
+        superheroService = new SuperheroService(superheroRepository, superheroMapper);
     }
 
     @Test
     void deleteAllAndResultShouldBeZero() {
-        service.deleteAll();
-        List<Superhero> result = service.findAll();
+        superheroService.deleteAll();
+        List<SuperheroDTO> result = superheroService.findAll();
         assertEquals(result.size(), 0);
     }
 
     @Test
     void createOneAndThenDeleteAll() {
-        service.deleteAll();
+        superheroService.deleteAll();
 
-        Superhero superhero = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
-        service.createSuperhero(superhero);
-        service.deleteAll();
+        SuperheroDTO superhero = new SuperheroDTO("Batman", "Ciudad Gotica", "Ninguno", true);
+        superheroService.createSuperhero(superhero);
+        superheroService.deleteAll();
 
-        Optional<Superhero> opt = service.findSuperhero(superhero.getName());
+        Optional<SuperheroDTO> opt = superheroService.findSuperhero(superhero.getName());
         assertTrue(opt.isEmpty());
     }
 
     @Test
     void createOneAndFindIt() {
-        service.deleteAll();
+        superheroService.deleteAll();
 
-        Superhero superhero = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
-        service.createSuperhero(superhero);
+        SuperheroDTO superhero = new SuperheroDTO("Batman", "Ciudad Gotica", "Ninguno", true);
+        superheroService.createSuperhero(superhero);
 
-        List<Superhero> list = service.findAll();
+        List<SuperheroDTO> list = superheroService.findAll();
         assertEquals(list.size(), 1);
 
-        Optional<Superhero> opt = service.findSuperhero(superhero.getName());
+        Optional<SuperheroDTO> opt = superheroService.findSuperhero(superhero.getName());
         assertThat(opt.get()).isEqualToComparingFieldByField(superhero);
     }
 
     @Test
     void createOneAndThenDeleteIt() {
-        service.deleteAll();
+        superheroService.deleteAll();
 
-        Superhero superhero = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
-        service.createSuperhero(superhero);
-        service.deleteSuperhero(superhero.getName());
+        SuperheroDTO superhero = new SuperheroDTO("Batman", "Ciudad Gotica", "Ninguno", true);
+        superheroService.createSuperhero(superhero);
+        superheroService.deleteSuperhero(superhero.getName());
 
-        Optional<Superhero> opt = service.findSuperhero(superhero.getName());
+        Optional<SuperheroDTO> opt = superheroService.findSuperhero(superhero.getName());
         assertTrue(opt.isEmpty());
     }
 
     @Test
     void updateOneAndCompareToTheNonUpdatedVersion() {
-        service.deleteAll();
+        superheroService.deleteAll();
 
-        Superhero superhero = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
-        service.createSuperhero(superhero);
+        SuperheroDTO superhero = new SuperheroDTO("Batman", "Ciudad Gotica", "Ninguno", true);
+        superheroService.createSuperhero(superhero);
 
-        Superhero updatedSuperhero = service.findSuperhero(superhero.getName()).get();
-        ;
+        SuperheroDTO updatedSuperhero = superheroService.findSuperhero(superhero.getName()).get();
         updatedSuperhero.setCity("Nueva York");
-        service.updateSuperhero(updatedSuperhero);
+        superheroService.updateSuperhero(updatedSuperhero);
 
-        Optional<Superhero> opt = service.findSuperhero(superhero.getName());
+        Optional<SuperheroDTO> opt = superheroService.findSuperhero(superhero.getName());
         assertFalse(opt.get().getCity().equals(superhero.getCity()));
     }
 
     @Test
     void updateOneAndCompareToTheUpdatedVersion() {
-        service.deleteAll();
+        superheroService.deleteAll();
 
-        Superhero superhero = new Superhero("Batman", "Ciudad Gotica", "Ninguno", true);
-        service.createSuperhero(superhero);
+        SuperheroDTO superhero = new SuperheroDTO("Batman", "Ciudad Gotica", "Ninguno", true);
+        superheroService.createSuperhero(superhero);
 
-        Superhero updatedSuperhero = superhero;
+        SuperheroDTO updatedSuperhero = superhero;
         updatedSuperhero.setCity("Nueva York");
-        service.updateSuperhero(updatedSuperhero);
+        superheroService.updateSuperhero(updatedSuperhero);
 
-        Optional<Superhero> opt = service.findSuperhero(superhero.getName());
+        Optional<SuperheroDTO> opt = superheroService.findSuperhero(superhero.getName());
         assertTrue(opt.isPresent());
         assertThat(opt.get()).isEqualToComparingFieldByField(superhero);
     }
 
     @Test
     void initTest() {
-        service.deleteAll();
-        service.init();
+        superheroService.deleteAll();
+        superheroService.init();
 
-        List<Superhero> result = service.findAll();
+        List<SuperheroDTO> result = superheroService.findAll();
         assertEquals(result.size(), 6);
 
-        Optional<Superhero> batman = service.findSuperhero("Batman");
-        Optional<Superhero> superman = service.findSuperhero("Superman");
-        Optional<Superhero> spiderman = service.findSuperhero("Spiderman");
-        Optional<Superhero> flechaVerde = service.findSuperhero("Flecha Verde");
-        Optional<Superhero> thor = service.findSuperhero("Thor");
-        Optional<Superhero> ironman = service.findSuperhero("Ironman");
+        Optional<SuperheroDTO> batman = superheroService.findSuperhero("Batman");
+        Optional<SuperheroDTO> superman = superheroService.findSuperhero("Superman");
+        Optional<SuperheroDTO> spiderman = superheroService.findSuperhero("Spiderman");
+        Optional<SuperheroDTO> flechaVerde = superheroService.findSuperhero("Flecha Verde");
+        Optional<SuperheroDTO> thor = superheroService.findSuperhero("Thor");
+        Optional<SuperheroDTO> ironman = superheroService.findSuperhero("Ironman");
 
         assertTrue(batman.isPresent());
         assertTrue(superman.isPresent());
@@ -127,29 +127,29 @@ class SuperheroServiceTest {
 
     @Test
     void findAllTest() {
-        service.deleteAll();
-        service.init();
+        superheroService.deleteAll();
+        superheroService.init();
 
-        List<Superhero> result = service.findAll();
+        List<SuperheroDTO> result = superheroService.findAll();
         assertEquals(result.size(), 6);
 
         for (int i = 0; i < result.size(); i++) {
-            Superhero superhero1 = result.get(i);
-            Superhero superhero2 = service.findSuperhero(superhero1.getName()).get();
-            assertThat(superhero1).isEqualToComparingFieldByField(superhero2);
+            SuperheroDTO superhero = result.get(i);
+            SuperheroDTO superheroDTO = superheroService.findSuperhero(superhero.getName()).get();
+            assertThat(superhero).isEqualToComparingFieldByField(superheroMapper.toEntity(superheroDTO));
         }
     }
 
     @Test
     void findByNameContainingTest() {
         boolean flag = true;
-        service.deleteAll();
-        service.init();
+        superheroService.deleteAll();
+        superheroService.init();
 
-        List<Superhero> result = service.findByNameContaining("man");
+        List<SuperheroDTO> result = superheroService.findByNameContaining("man");
 
-        for (Superhero superhero : result) {
-            flag = flag && superhero.getName().contains("man");
+        for (SuperheroDTO superheroDTO : result) {
+            flag = flag && superheroDTO.getName().contains("man");
         }
 
         assertTrue(flag);

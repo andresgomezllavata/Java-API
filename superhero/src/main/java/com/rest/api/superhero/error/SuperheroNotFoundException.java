@@ -1,6 +1,6 @@
 package com.rest.api.superhero.error;
 
-public class SuperheroNotFoundException extends RuntimeException{
+public class SuperheroNotFoundException extends RuntimeException {
     private String name;
 
     public SuperheroNotFoundException(String name) {
